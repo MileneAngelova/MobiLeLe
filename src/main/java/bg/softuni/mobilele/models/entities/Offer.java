@@ -14,7 +14,7 @@ public class Offer extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
     @Enumerated(EnumType.STRING)
-
+    @Column(nullable = false)
     private EngineEnum engine;
 
     @Column(name = "image_url")
@@ -22,10 +22,14 @@ public class Offer extends BaseEntity {
 
     private int mileage;
 
+    @Column(nullable = false)
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TransmissionEnum transmission;
+
+    @Column(nullable = false)
     private int year;
 
     @ManyToOne
@@ -116,5 +120,20 @@ public class Offer extends BaseEntity {
     public Offer setYear(int year) {
         this.year = year;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "description='" + description + '\'' +
+                ", engine=" + engine +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", mileage=" + mileage +
+                ", price=" + price +
+                ", transmission=" + transmission +
+                ", year=" + year +
+                ", model=" + (model != null ? model.getName() : null) +
+                ", seller=" + (seller != null ? seller.getLastName() : null) +
+                '}';
     }
 }

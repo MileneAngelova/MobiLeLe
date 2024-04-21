@@ -10,9 +10,10 @@ public class User extends BaseEntity {
 
     private String password;
 
-
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
     @Column(name = "is_active")
