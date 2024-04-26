@@ -1,8 +1,5 @@
 package bg.softuni.mobilele.models.dtos;
 
-import bg.softuni.mobilele.models.enums.RoleEnum;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Size;
 
 public class UserRegisterDTO {
@@ -13,7 +10,7 @@ public class UserRegisterDTO {
     private String lastName;
 
     @Size(min = 2, max = 20)
-    private String username;
+    private String email;
 
     @Size(min = 2, max = 20)
     private String password;
@@ -39,12 +36,12 @@ public class UserRegisterDTO {
         return this;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public UserRegisterDTO setUsername(String username) {
-        this.username = username;
+    public UserRegisterDTO setEmail(String email) {
+        this.email = email;
         return this;
     }
 
@@ -71,7 +68,7 @@ public class UserRegisterDTO {
         return "UserRegisterDTO{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", username='" + username + '\'' +
+                ", username='" + email + '\'' +
                 ", password='" + (password != null ? "{PROVIDED}" : null) + '\'' +
                 ", confirmPassword='" + (confirmPassword != null ? "{PROVIDED}" : null) + '\'' +
                 '}';

@@ -50,12 +50,19 @@ public class UserService {
     }
 
     public void register(UserRegisterDTO userRegisterDTO) {
-        Optional<User> optUser = this.userRepository.findByEmail(userRegisterDTO.getUsername());
+        Optional<User> optUser = this.userRepository.findByEmail(userRegisterDTO.getEmail());
 
         if (optUser.isPresent()) {
-            LOGGER.info("User " + userRegisterDTO.getUsername() + " already exist");
+            LOGGER.info("User " + userRegisterDTO.getEmail() + " already exist");
         }
 
+        User newUser = new User()
+                .setEmail(userRegisterDTO.getEmail())
+                .setPassword(userRegisterDTO.getPassword())
+                .setFirstName(userRegisterDTO.getFirstName())
+                .setLastName(userRegisterDTO.getLastName());
+        this.userRepository.save(newUser);
+        login(newUser);
 
 
     }
