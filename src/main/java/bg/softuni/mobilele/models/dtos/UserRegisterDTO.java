@@ -1,21 +1,28 @@
 package bg.softuni.mobilele.models.dtos;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class UserRegisterDTO {
+    @NotBlank
     @Size(min = 2, max = 20)
     private String firstName;
 
+    @NotBlank
     @Size(min = 2, max = 20)
     private String lastName;
 
-    @Size(min = 2, max = 20)
+    @NotBlank
+    @Email
     private String email;
 
-    @Size(min = 2, max = 20)
+    @NotBlank
+    @Size(min = 4, max = 16)
     private String password;
 
-    @Size(min = 2, max = 20)
+    @NotBlank
+    @Size(min = 4, max = 16)
     private String confirmPassword;
 
     public String getFirstName() {

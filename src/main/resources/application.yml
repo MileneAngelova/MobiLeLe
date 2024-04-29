@@ -25,11 +25,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+#        first create the database, after that seed the data
     defer-datasource-initialization: true
 
-  sql:
-    init:
-      mode: always
+#  sql:
+#    init:
+#      mode: always
 
   #Cloudinary Properties
   #cloudinary:
