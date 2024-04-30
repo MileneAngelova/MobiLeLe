@@ -25,6 +25,9 @@ public class UserRegisterDTO {
     @Size(min = 4, max = 16)
     private String confirmPassword;
 
+    public UserRegisterDTO() {
+    }
+
     public String getFirstName() {
         return firstName;
     }
