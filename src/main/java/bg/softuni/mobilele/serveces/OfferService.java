@@ -12,6 +12,8 @@ import bg.softuni.mobilele.repositories.UserRepository;
 import bg.softuni.mobilele.user.CurrentUser;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class OfferService {
     private final OfferRepository offerRepository;
@@ -38,8 +40,14 @@ public class OfferService {
         offerRepository.save(newOffer);
     }
 
-//    public OfferDetailsDTO getOfferDetails(Long id) {
-//        this.offerRepository.findById(id).map()
-//                .orElseThrow();
-//    }
+    public OfferDetailsDTO getOfferDetails(Long id) {
+   return this.offerRepository.findById(id)
+            .map(OfferService::toOfferDetails)
+           .orElseThrow();
+    }
+
+    private static OfferDetailsDTO toOfferDetails(Offer offer) {
+        return new OfferDetailsDTO(offer.getId(), offer.getDescription(), offer.getMileage(),
+                offer.getEngine());
+    }
 }
