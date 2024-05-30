@@ -1,9 +1,12 @@
 package bg.softuni.mobilele.models.dtos;
 
+import bg.softuni.mobilele.models.validations.FieldsMatch;
+import bg.softuni.mobilele.models.validations.UniqueUserEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+@FieldsMatch(first = "password", second = "confirmPassword", message = "Passwords do not match")
 public class UserRegisterDTO {
     @NotBlank
     @Size(min = 2, max = 20)
@@ -13,8 +16,9 @@ public class UserRegisterDTO {
     @Size(min = 2, max = 20)
     private String lastName;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "The field must not be empty")
+    @Email(message = "Email format is not valid")
+    @UniqueUserEmail(message = "The email is already registered.")
     private String email;
 
     @NotBlank

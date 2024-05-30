@@ -20,7 +20,7 @@ public class Model extends BaseEntity {
     private int startYear;
 
     @Column(name = "end_year")
-    private int endYear;
+    private Long endYear;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
@@ -65,11 +65,11 @@ public class Model extends BaseEntity {
         return this;
     }
 
-    public int getEndYear() {
+    public Long getEndYear() {
         return endYear;
     }
 
-    public Model setEndYear(int endYear) {
+    public Model setEndYear(Long endYear) {
         this.endYear = endYear;
         return this;
     }

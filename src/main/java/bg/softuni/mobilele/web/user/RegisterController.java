@@ -4,7 +4,6 @@ import bg.softuni.mobilele.models.dtos.UserRegisterDTO;
 import bg.softuni.mobilele.serveces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,8 +21,8 @@ public class RegisterController {
     }
 
     @ModelAttribute("userModel")
-    public void initUserModel(Model model) {
-        model.addAttribute("userModel", new UserRegisterDTO());
+    public UserRegisterDTO initUserModel() {
+        return new UserRegisterDTO();
     }
 
     @GetMapping("/register")
@@ -36,10 +35,11 @@ public class RegisterController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userModel", userModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userModel", bindingResult);
+
             return "redirect:/users/register";
         }
-
         this.userService.register(userModel);
-        return "redirect:/";
+
+        return "redirect:/users/login";
     }
 }
