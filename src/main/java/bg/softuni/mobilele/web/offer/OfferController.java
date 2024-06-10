@@ -1,9 +1,10 @@
 package bg.softuni.mobilele.web.offer;
 
 import bg.softuni.mobilele.models.dtos.AddOfferDTO;
-import bg.softuni.mobilele.models.entities.User;
+import bg.softuni.mobilele.models.dtos.UserLoginDTO;
 import bg.softuni.mobilele.serveces.BrandService;
 import bg.softuni.mobilele.serveces.OfferService;
+import bg.softuni.mobilele.serveces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class OfferController {
     private final OfferService offerService;
     private final BrandService brandService;
+    private final UserService userService;
 
-    public OfferController(OfferService offerService, BrandService brandService) {
+    public OfferController(OfferService offerService, BrandService brandService, UserService userService) {
         this.offerService = offerService;
         this.brandService = brandService;
+        this.userService = userService;
     }
 
     @GetMapping("/all")
@@ -39,8 +42,11 @@ public class OfferController {
     }
 
     @PostMapping("/add")
-    public String addOffer(@Valid AddOfferDTO addOfferModel,
-                           BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String addOffer(@Valid AddOfferDTO addOfferModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, UserLoginDTO userLoginDTO) {
+        if (!this.userService.isLoggedIn(userLoginDTO)) {
+            return "redirect:/";
+        }
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addOfferModel", addOfferModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addOfferModel", bindingResult);

@@ -33,6 +33,10 @@ public class BrandService {
 
     private ModelDTO mapModel(Model model) {
         return new ModelDTO().setId(model.getId())
-                .setName(model.getName());
+                .setName(model.getName())
+                .setCategory(model.getCategory())
+                .setStartYear(model.getStartYear())
+                .setEndYear(model.getEndYear())
+                .setImageUrl(model.getImageUrl());
     }
 }

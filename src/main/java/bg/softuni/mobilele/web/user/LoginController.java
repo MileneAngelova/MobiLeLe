@@ -5,6 +5,7 @@ import bg.softuni.mobilele.models.dtos.UserRegisterDTO;
 import bg.softuni.mobilele.serveces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,13 +28,19 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String login() {
-
+    public String login(@Valid UserLoginDTO userLoginDTO) {
+        if (this.userService.isLoggedIn(userLoginDTO)) {
+            return "redirect:/users/login";
+        }
         return "auth-login";
     }
 
     @PostMapping("/login")
     public String login(@Valid UserLoginDTO loginModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (this.userService.isLoggedIn(loginModel)) {
+            return "redirect:/";
+        }
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("loginModel", loginModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginModel", bindingResult);
@@ -50,7 +57,7 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
+    public String logout(UserLoginDTO userLoginDTO) {
         userService.logout();
         return "redirect:/";
     }

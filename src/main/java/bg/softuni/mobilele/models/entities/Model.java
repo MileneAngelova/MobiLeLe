@@ -17,7 +17,7 @@ public class Model extends BaseEntity {
     private String imageUrl;
 
     @Column(name = "start_year")
-    private int startYear;
+    private Long startYear;
 
     @Column(name = "end_year")
     private Long endYear;
@@ -56,11 +56,11 @@ public class Model extends BaseEntity {
         return this;
     }
 
-    public int getStartYear() {
+    public Long getStartYear() {
         return startYear;
     }
 
-    public Model setStartYear(int startYear) {
+    public Model setStartYear(Long startYear) {
         this.startYear = startYear;
         return this;
     }
