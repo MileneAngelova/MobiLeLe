@@ -2,6 +2,7 @@ package bg.softuni.mobilele.serveces;
 
 import bg.softuni.mobilele.models.dtos.AddOfferDTO;
 import bg.softuni.mobilele.models.dtos.OfferDetailsDTO;
+import bg.softuni.mobilele.models.dtos.OfferSummaryDTO;
 import bg.softuni.mobilele.models.entities.Model;
 import bg.softuni.mobilele.models.entities.Offer;
 import bg.softuni.mobilele.models.entities.User;
@@ -12,6 +13,7 @@ import bg.softuni.mobilele.repositories.UserRepository;
 import bg.softuni.mobilele.user.CurrentUser;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,4 +52,19 @@ public class OfferService {
         return new OfferDetailsDTO(offer.getId(), offer.getDescription(), offer.getMileage(),
                 offer.getEngine());
     }
+
+    public List<OfferSummaryDTO> getAllOffers() {
+        return this.offerRepository.findAll().stream()
+                .map(OfferService::toOfferSummary)
+                .toList();
+    }
+
+    private static OfferSummaryDTO toOfferSummary(Offer offer) {
+        return new OfferSummaryDTO(offer.getId(), offer.getDescription(),
+                offer.getMileage(), offer.getEngine());
+    }
+
+   public void deleteOffer(Long id) {
+        this.offerRepository.deleteById(id);
+   }
 }

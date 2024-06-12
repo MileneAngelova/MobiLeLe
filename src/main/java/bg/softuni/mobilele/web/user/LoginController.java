@@ -3,6 +3,7 @@ package bg.softuni.mobilele.web.user;
 import bg.softuni.mobilele.models.dtos.UserLoginDTO;
 import bg.softuni.mobilele.models.dtos.UserRegisterDTO;
 import bg.softuni.mobilele.serveces.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,9 +58,10 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout(UserLoginDTO userLoginDTO) {
+    public String logout() {
         userService.logout();
-        return "redirect:/";
+                return "redirect:/";
+
     }
 
 

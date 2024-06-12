@@ -1,29 +1,26 @@
 package bg.softuni.mobilele.models.dtos;
 
 import bg.softuni.mobilele.models.enums.EngineEnum;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
-public class OfferDetailsDTO {
+public class OfferSummaryDTO {
     private Long id;
     private String description;
-    @Positive
     private int mileage;
-    @NotNull
-    private EngineEnum engineEnum;
 
-    public OfferDetailsDTO(Long id, String description, int mileage, EngineEnum engineEnum) {
+    private EngineEnum engine;
+
+    public OfferSummaryDTO(Long id, String description, int mileage, EngineEnum engine) {
         this.id = id;
         this.description = description;
         this.mileage = mileage;
-        this.engineEnum = engineEnum;
+        this.engine = engine;
     }
 
     public Long getId() {
         return id;
     }
 
-    public OfferDetailsDTO setId(Long id) {
+    public OfferSummaryDTO setId(Long id) {
         this.id = id;
         return this;
     }
@@ -32,7 +29,7 @@ public class OfferDetailsDTO {
         return description;
     }
 
-    public OfferDetailsDTO setDescription(String description) {
+    public OfferSummaryDTO setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -41,17 +38,17 @@ public class OfferDetailsDTO {
         return mileage;
     }
 
-    public OfferDetailsDTO setMileage(int mileage) {
+    public OfferSummaryDTO setMileage(int mileage) {
         this.mileage = mileage;
         return this;
     }
 
-    public EngineEnum getEngineEnum() {
-        return engineEnum;
+    public EngineEnum getEngine() {
+        return engine;
     }
 
-    public OfferDetailsDTO setEngineEnum(EngineEnum engineEnum) {
-        this.engineEnum = engineEnum;
+    public OfferSummaryDTO setEngine(EngineEnum engine) {
+        this.engine = engine;
         return this;
     }
 }

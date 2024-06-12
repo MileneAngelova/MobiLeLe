@@ -2,6 +2,7 @@ package bg.softuni.mobilele.web.offer;
 
 import bg.softuni.mobilele.models.dtos.AddOfferDTO;
 import bg.softuni.mobilele.models.dtos.UserLoginDTO;
+import bg.softuni.mobilele.models.enums.EngineEnum;
 import bg.softuni.mobilele.serveces.BrandService;
 import bg.softuni.mobilele.serveces.OfferService;
 import bg.softuni.mobilele.serveces.UserService;
@@ -9,9 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -27,8 +26,14 @@ public class OfferController {
         this.userService = userService;
     }
 
+    @ModelAttribute("engineTypes")
+    public EngineEnum[] allEngineTypes() {
+        return EngineEnum.values();
+    }
+
     @GetMapping("/all")
-    public String getAllOffers() {
+    public String getAllOffers(Model model) {
+        model.addAttribute("allOffers", offerService.getAllOffers());
         return "offers";
     }
 
@@ -37,7 +42,7 @@ public class OfferController {
         if (!model.containsAttribute("addOfferModel")) {
             model.addAttribute("addOfferModel", new AddOfferDTO());
         }
-        model.addAttribute("brands", brandService.getAllBrands());
+//        model.addAttribute("brands", brandService.getAllBrands());
         return "offer-add";
     }
 

@@ -32,7 +32,7 @@ public class AddOfferDTO {
 
     private String description;
 
-    private final String imageUrl = "https://media.wired.com/photos/5a5ff10727af4c6646bda650/master/pass/SmartEQ-FeatureArt.jpg";
+    private String imageUrl;
 
 
     public Long getModelId() {
