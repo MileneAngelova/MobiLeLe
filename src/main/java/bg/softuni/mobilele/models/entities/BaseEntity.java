@@ -12,7 +12,7 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime modified;
 
     public Long getId() {

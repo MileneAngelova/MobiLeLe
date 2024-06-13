@@ -1,7 +1,5 @@
 package bg.softuni.mobilele.models.entities;
 
-import bg.softuni.mobilele.models.entities.BaseEntity;
-import bg.softuni.mobilele.models.entities.Model;
 import bg.softuni.mobilele.models.enums.EngineEnum;
 import bg.softuni.mobilele.models.enums.TransmissionEnum;
 import jakarta.persistence.*;

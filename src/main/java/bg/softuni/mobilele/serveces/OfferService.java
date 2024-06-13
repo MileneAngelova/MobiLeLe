@@ -2,7 +2,7 @@ package bg.softuni.mobilele.serveces;
 
 import bg.softuni.mobilele.models.dtos.AddOfferDTO;
 import bg.softuni.mobilele.models.dtos.OfferDetailsDTO;
-import bg.softuni.mobilele.models.dtos.OfferSummaryDTO;
+import bg.softuni.mobilele.models.dtos.AllOffersDTO;
 import bg.softuni.mobilele.models.entities.Model;
 import bg.softuni.mobilele.models.entities.Offer;
 import bg.softuni.mobilele.models.entities.User;
@@ -11,10 +11,10 @@ import bg.softuni.mobilele.repositories.ModelRepository;
 import bg.softuni.mobilele.repositories.OfferRepository;
 import bg.softuni.mobilele.repositories.UserRepository;
 import bg.softuni.mobilele.user.CurrentUser;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OfferService {
@@ -23,45 +23,51 @@ public class OfferService {
     private final ModelRepository modelRepository;
     private final CurrentUser currentUser;
     private final OfferMapper offerMapper;
+    private final ModelMapper modelMapper;
 
-    public OfferService(OfferRepository offerRepository, UserRepository userRepository, ModelRepository modelRepository, CurrentUser currentUser, OfferMapper offerMapper) {
+    public OfferService(OfferRepository offerRepository, UserRepository userRepository, ModelRepository modelRepository, CurrentUser currentUser, OfferMapper offerMapper, ModelMapper modelMapper) {
         this.offerRepository = offerRepository;
         this.userRepository = userRepository;
         this.modelRepository = modelRepository;
         this.currentUser = currentUser;
         this.offerMapper = offerMapper;
+        this.modelMapper = modelMapper;
     }
 
     public void addOffer(AddOfferDTO addOfferDTO) {
         Offer newOffer = offerMapper.addOfferDtoToOffer(addOfferDTO);
-        User seller = userRepository.findByEmail(currentUser.getEmail()).orElseThrow();
-        Model model = this.modelRepository.findById(addOfferDTO.getModelId()).orElseThrow();
+        User seller = userRepository.findByEmail(currentUser.getEmail()).orElse(null);
+        System.out.println(currentUser.getEmail() + " " + currentUser.getName());
+        Model model = this.modelRepository.findById(addOfferDTO.getModelId()).orElse(null);
 
-        newOffer.setModel(model);
         newOffer.setSeller(seller);
+        newOffer.setModel(model);
         offerRepository.save(newOffer);
     }
 
     public OfferDetailsDTO getOfferDetails(Long id) {
    return this.offerRepository.findById(id)
             .map(OfferService::toOfferDetails)
-           .orElseThrow();
+           .orElse(null);
     }
 
     private static OfferDetailsDTO toOfferDetails(Offer offer) {
-        return new OfferDetailsDTO(offer.getId(), offer.getDescription(), offer.getMileage(),
-                offer.getEngine());
+        return new OfferDetailsDTO(offer.getId(), offer.getYear(), offer.getModel().getBrand().getName(), offer.getModel().getName(), offer.getMileage(), offer.getPrice(),
+                offer.getEngine(), offer.getTransmission(), offer.getCreated(), offer.getModified(),
+                String.format(offer.getSeller().getFirstName() + "  " + offer.getSeller().getLastName()),
+                offer.getImageUrl());
     }
 
-    public List<OfferSummaryDTO> getAllOffers() {
+    public List<AllOffersDTO> getAllOffers() {
         return this.offerRepository.findAll().stream()
-                .map(OfferService::toOfferSummary)
+                .map(OfferService::toAllOffersDTO)
                 .toList();
     }
 
-    private static OfferSummaryDTO toOfferSummary(Offer offer) {
-        return new OfferSummaryDTO(offer.getId(), offer.getDescription(),
-                offer.getMileage(), offer.getEngine());
+    private static AllOffersDTO toAllOffersDTO(Offer offer) {
+        return new AllOffersDTO(offer.getId(), offer.getYear(), offer.getModel().getBrand().getName(),
+                offer.getModel().getName(), offer.getMileage(), offer.getPrice(), offer.getEngine(),
+                offer.getTransmission(), offer.getImageUrl());
     }
 
    public void deleteOffer(Long id) {

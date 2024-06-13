@@ -7,13 +7,13 @@
 </head>
 
 <body>
-<div th:replace="fragments/navbar">Navbar</div>
+<div th:replace="~{fragments/navbar}">Navbar</div>
 
 <div class="container-fluid">
     <h5 class="text-center text-white mt-5">
         Welcome,
         <span th:if="${@currentUser.isLoggedIn()}"
-              th:text="${@currentUser.getName()}"!>
+              th:text="${@currentUser.getName()}">
         </span>
         <span th:if="${@currentUser.isAnonymous()}">
               Guest!

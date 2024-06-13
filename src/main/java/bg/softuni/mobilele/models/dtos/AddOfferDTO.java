@@ -34,6 +34,9 @@ public class AddOfferDTO {
 
     private String imageUrl;
 
+    public AddOfferDTO() {
+    }
+
 
     public Long getModelId() {
         return modelId;
@@ -104,6 +107,11 @@ public class AddOfferDTO {
 
     public AddOfferDTO setModelId(Long modelId) {
         this.modelId = modelId;
+        return this;
+    }
+
+    public AddOfferDTO setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 
