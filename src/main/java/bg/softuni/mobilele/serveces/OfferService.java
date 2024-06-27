@@ -24,14 +24,16 @@ public class OfferService {
     private final CurrentUser currentUser;
     private final OfferMapper offerMapper;
     private final ModelMapper modelMapper;
+    private final ExRateService exRateService;
 
-    public OfferService(OfferRepository offerRepository, UserRepository userRepository, ModelRepository modelRepository, CurrentUser currentUser, OfferMapper offerMapper, ModelMapper modelMapper) {
+    public OfferService(OfferRepository offerRepository, UserRepository userRepository, ModelRepository modelRepository, CurrentUser currentUser, OfferMapper offerMapper, ModelMapper modelMapper, ExRateService exRateService) {
         this.offerRepository = offerRepository;
         this.userRepository = userRepository;
         this.modelRepository = modelRepository;
         this.currentUser = currentUser;
         this.offerMapper = offerMapper;
         this.modelMapper = modelMapper;
+        this.exRateService = exRateService;
     }
 
     public void addOffer(AddOfferDTO addOfferDTO) {
@@ -47,15 +49,18 @@ public class OfferService {
 
     public OfferDetailsDTO getOfferDetails(Long id) {
         return this.offerRepository.findById(id)
-                .map(OfferService::toOfferDetails)
+                .map(this::toOfferDetails)
                 .orElse(null);
     }
 
-    private static OfferDetailsDTO toOfferDetails(Offer offer) {
+
+
+    private OfferDetailsDTO toOfferDetails(Offer offer) {
         return new OfferDetailsDTO(offer.getId(), offer.getYear(), offer.getModel().getBrand().getName(), offer.getModel().getName(), offer.getMileage(), offer.getPrice(),
                 offer.getEngine(), offer.getTransmission(), offer.getCreated(), offer.getModified(),
                 String.format(offer.getSeller().getFirstName() + "  " + offer.getSeller().getLastName()),
-                offer.getImageUrl());
+                offer.getImageUrl(),
+                exRateService.allSupportedCurrencies());
     }
 
     public List<AllOffersDTO> getAllOffers() {

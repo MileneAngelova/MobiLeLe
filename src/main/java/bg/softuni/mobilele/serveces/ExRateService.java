@@ -13,6 +13,7 @@ import org.springframework.web.client.RestClient;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,7 +37,8 @@ public class ExRateService {
     }
 
     public ExRatesDTO fetchExRatesRates() {
-        return restClient.get().uri(forexApiConfig.getUrl(), forexApiConfig.getKey())
+        return restClient.get()
+                .uri(forexApiConfig.getUrl(), forexApiConfig.getKey())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(ExRatesDTO.class);
@@ -61,28 +63,44 @@ public class ExRateService {
         });
     }
 
-//    Optional<BigDecimal> findExRate(String from, String to) {
-//        if (Objects.equals(from, to)) {
-//            return Optional.of(BigDecimal.ONE);
-//        }
-//// USD/BGN = x
-//// USD/EUR = y
-//
-//        // USD = x * BGN
-//        // USD = y * EUR
-//        Optional<BigDecimal> fromOpt = forexApiConfig.getBase().equals(from) ?
-//                Optional.of(BigDecimal.ONE) :
-//                exRateRepository.findByCurrency(to)
-//                        .map(ExRateEntity::getRate);
-//        if (fromOpt.isEmpty() || toOpt.isEmpty()) {
-//            return Optional.empty();
-//        } else {
-//            return Optional.of(toOpt.get().devide(from.get(), 2, RoundingMode.HALF_DOWN));
-//        }
-//        return Optional.empty();
-//    }
-//
-//    BigDecimal convert(String from, String to, BigDecimal amount) {
-//
-//    }
+    Optional<BigDecimal> findExRate(String from, String to) {
+        if (Objects.equals(from, to)) {
+            return Optional.of(BigDecimal.ONE);
+        }
+        // USD/BGN = x
+        // USD/EUR = y
+
+        // USD = x * BGN
+        // USD = y * EUR
+
+        // EUR/BGN = x / y
+
+        Optional<BigDecimal> fromOpt = forexApiConfig.getBase().equals(from) ?
+                Optional.of(BigDecimal.ONE) :
+                exRateRepository.findByCurrency(from)
+                        .map(ExRateEntity::getRate);
+        Optional<BigDecimal> toOpt = forexApiConfig.getBase().equals(to) ?
+                Optional.of(BigDecimal.ONE) :
+                exRateRepository.findByCurrency(to)
+                        .map(ExRateEntity::getRate);
+
+        if (fromOpt.isEmpty() || toOpt.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(toOpt.get().divide(fromOpt.get(), 2, RoundingMode.HALF_DOWN));
+        }
+    }
+
+    public BigDecimal convert(String from, String to, BigDecimal amount) {
+        return findExRate(from, to)
+                .orElseThrow(() -> new ObjectNotFoundException("Convertion from " + from + " to " + to + " not possible!"))
+                .multiply(amount);
+    }
+
+    public List<String> allSupportedCurrencies() {
+        return exRateRepository.findAll()
+                .stream()
+                .map(ExRateEntity::getCurrency)
+                .toList();
+    }
 }

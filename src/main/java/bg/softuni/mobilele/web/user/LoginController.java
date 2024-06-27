@@ -30,15 +30,15 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login(@Valid UserLoginDTO userLoginDTO) {
-        if (this.userService.isLoggedIn(userLoginDTO)) {
-            return "redirect:/users/login";
+        if (this.userService.isLoggedIn()) {
+            return "redirect:/offers/all";
         }
         return "auth-login";
     }
 
     @PostMapping("/login")
     public String login(@Valid UserLoginDTO loginModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (this.userService.isLoggedIn(loginModel)) {
+        if (this.userService.isLoggedIn()) {
             return "redirect:/";
         }
 
@@ -48,13 +48,14 @@ public class LoginController {
 
             return "redirect:/users/login";
         }
-        boolean userExist = this.userService.userExist(loginModel.getEmail(), loginModel.getPassword());
+        boolean success = userService.login(loginModel);
 
-        if (userExist) {
-            userService.isLoggedIn(loginModel);
-            return "redirect:/";
+        if (!success) {
+            redirectAttributes.addFlashAttribute("loginError", true);
+
+            return "redirect:/users/login";
         }
-        return "redirect:/users/login";
+        return "redirect:/offers/all";
     }
 
     @GetMapping("/logout")

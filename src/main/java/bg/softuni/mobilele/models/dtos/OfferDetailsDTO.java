@@ -6,6 +6,7 @@ import bg.softuni.mobilele.models.enums.TransmissionEnum;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class OfferDetailsDTO {
     private Long id;
@@ -20,11 +21,12 @@ public class OfferDetailsDTO {
     private LocalDateTime modified;
     private String sellerName;
     private String image;
+    private List<String> currencies;
 
     public OfferDetailsDTO() {
     }
 
-    public OfferDetailsDTO(Long id, int year, String brand, String model, int mileage, BigDecimal price, EngineEnum engine, TransmissionEnum transmission, LocalDateTime created, LocalDateTime modified, String sellerName, String image) {
+    public OfferDetailsDTO(Long id, int year, String brand, String model, int mileage, BigDecimal price, EngineEnum engine, TransmissionEnum transmission, LocalDateTime created, LocalDateTime modified, String sellerName, String image, List<String> allSupportedCurrencies) {
         this.id = id;
         this.year = year;
         this.brand = brand;
@@ -37,6 +39,7 @@ public class OfferDetailsDTO {
         this.modified = modified;
         this.sellerName = sellerName;
         this.image = image;
+        this.currencies = allSupportedCurrencies;
     }
 
     public Long getId() {
@@ -134,6 +137,15 @@ public class OfferDetailsDTO {
     }
     public OfferDetailsDTO setImage(String image) {
         this.image = image;
+        return this;
+    }
+
+    public List<String> getCurrencies() {
+        return currencies;
+    }
+
+    public OfferDetailsDTO setCurrencies(List<String> currencies) {
+        this.currencies = currencies;
         return this;
     }
 }

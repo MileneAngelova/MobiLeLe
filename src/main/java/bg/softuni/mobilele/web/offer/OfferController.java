@@ -43,7 +43,7 @@ public class OfferController {
             model.addAttribute("addOfferModel", new AddOfferDTO());
         }
         model.addAttribute("brands", brandService.getAllBrands());
-        if (!this.userService.isLoggedIn(userLoginDTO)) {
+        if (!this.userService.isLoggedIn()) {
             return "redirect:/";
         }
         return "offer-add";
@@ -51,7 +51,7 @@ public class OfferController {
 
     @PostMapping("/add")
     public String addOffer(@Valid AddOfferDTO addOfferModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, UserLoginDTO userLoginDTO) {
-        if (!this.userService.isLoggedIn(userLoginDTO)) {
+        if (!this.userService.isLoggedIn()) {
             return "redirect:/";
         }
 

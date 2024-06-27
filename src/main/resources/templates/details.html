@@ -29,11 +29,22 @@
                                 <span th:text="*{mileage}"></span>
                         </span>
                     </div>
-                    <div class="card-text">
+                    <span class="card-text">
                         <span>• Price:
-                            <span th:text="*{price}"></span>
+                            <span id="price" th:text="*{price}"></span>
                         </span>
-                    </div>
+                    </span>
+                    <span class="card-text">
+                        <span>currency:
+                            <select id="currency">
+                                <option th:each="currency : *{currencies}"
+                                        th:value="${currency}"
+                                        th:selected="${currency} == 'BGN'"
+                                        th:text="${currency}">
+                                </option>
+                            </select>
+                        </span>
+                    </span>
                     <div class="card-text">
                         <span>• Engine type:
                             <span th:text="*{engine}"></span>
@@ -58,6 +69,7 @@
                     </div>
                 </li>
             </ul>
+            <input type="hidden" id="priceInBGN" th:value="*{price}">
             <div class="card-body">
                 <a class="card-link"
                    th:if="${@currentUser.isLoggedIn()}"
@@ -80,6 +92,7 @@
 <div>
     <footer></footer>
 </div>
-
+<script th:src="@{/js/currency.js}">
+</script>
 </body>
 </html>

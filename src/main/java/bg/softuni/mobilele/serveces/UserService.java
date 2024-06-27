@@ -18,43 +18,36 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final CurrentUser currentUser;
-    private final UserMapper userMapper;
+//    private final UserMapper userMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, CurrentUser currentUser, UserMapper userMapper, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, CurrentUser currentUser, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.currentUser = currentUser;
-        this.userMapper = userMapper;
+//        this.userMapper = userMapper;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean isLoggedIn(UserLoginDTO userLoginDTO) {
-        Optional<User> byEmail = this.userRepository.findByEmail(userLoginDTO.getEmail());
+    public boolean isLoggedIn() {
+        return this.currentUser.isLoggedIn();
+    }
+
+    public boolean login(UserLoginDTO loginDTO) {
+        Optional<User> byEmail= this.userRepository.findByEmail(loginDTO.getEmail());
 
         if (byEmail.isEmpty()) {
-            LOGGER.info("User with name {} not fount", userLoginDTO.getEmail());
             return false;
         }
 
-        boolean success = byEmail.get().getPassword().equals(userLoginDTO.getPassword());
-
-        if (success) {
-            login(byEmail.get());
-        } else {
-            logout();
+        if (!loginDTO.getPassword().equals(byEmail.get().getPassword())) {
+            return false;
         }
-        return success;
-    }
+        this.currentUser.login(byEmail.get().getId(), loginDTO.getEmail());
 
-
-    public void login(User user) {
-        currentUser.setLoggedIn(true)
-                .setName(user.getFirstName() + " " + user.getLastName())
-                .setEmail(user.getEmail());
-        this.modelMapper.map(currentUser, User.class);
+        return true;
     }
 
     public void logout() {
@@ -62,18 +55,9 @@ public class UserService {
     }
 
     public void register(UserRegisterDTO userRegisterDTO) {
-        User newUser = userMapper.userDtoToUser(userRegisterDTO);
+        User newUser = this.modelMapper.map(userRegisterDTO, User.class);
         newUser.setPassword(this.passwordEncoder.encode(userRegisterDTO.getPassword()));
 
         this.userRepository.save(newUser);
-    }
-
-    public boolean userExist(String email, String password) {
-        Optional<User> byEmail = this.userRepository.findByEmail(email);
-        if (byEmail.isPresent() && (byEmail.get().getPassword().equals(password))) {
-            currentUser.setLoggedIn(true);
-            return true;
-        }
-        return false;
     }
 }

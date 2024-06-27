@@ -6,11 +6,21 @@ import org.springframework.web.context.annotation.SessionScope;
 @Component
 @SessionScope
 public class CurrentUser {
+    private Long id;
     private String name;
     private  String email;
-    private boolean isLoggedIn;
+//    private boolean isLoggedIn;
 
     public CurrentUser() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public CurrentUser setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     public String getName() {
@@ -27,16 +37,21 @@ public class CurrentUser {
     }
 
     public boolean isLoggedIn() {
-        return isLoggedIn;
+        return this.email != null;
     }
 
-    public CurrentUser setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
-        return this;
+//    public CurrentUser setLoggedIn(boolean loggedIn) {
+//        isLoggedIn = loggedIn;
+//        return this;
+//    }
+
+    public void login(Long id, String email) {
+        this.id = id;
+        this.email = email;
     }
 
     public void clear() {
-        isLoggedIn = false;
+//        isLoggedIn = false;
         name = null;
         email = null;
     }
