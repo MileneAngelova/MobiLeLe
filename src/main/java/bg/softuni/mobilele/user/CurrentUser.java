@@ -10,6 +10,8 @@ public class CurrentUser {
     private  String email;
     private boolean isLoggedIn;
 
+    public CurrentUser() {
+    }
 
     public String getName() {
         return name;

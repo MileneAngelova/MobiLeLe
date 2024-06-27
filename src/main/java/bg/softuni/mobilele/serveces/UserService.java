@@ -54,6 +54,7 @@ public class UserService {
         currentUser.setLoggedIn(true)
                 .setName(user.getFirstName() + " " + user.getLastName())
                 .setEmail(user.getEmail());
+        this.modelMapper.map(currentUser, User.class);
     }
 
     public void logout() {
@@ -65,20 +66,6 @@ public class UserService {
         newUser.setPassword(this.passwordEncoder.encode(userRegisterDTO.getPassword()));
 
         this.userRepository.save(newUser);
-        login(newUser);
-
-        //        Optional<User> optUser = this.userRepository.findByEmail(userRegisterDTO.getEmail());
-//
-//        if (optUser.isPresent()) {
-//            LOGGER.info("User " + userRegisterDTO.getEmail() + " already exist");
-//        }
-//
-//        User newUser = new User()
-//                .setEmail(userRegisterDTO.getEmail())
-//                .setPassword(userRegisterDTO.getPassword())
-//                .setFirstName(userRegisterDTO.getFirstName())
-//                .setLastName(userRegisterDTO.getLastName());
-
     }
 
     public boolean userExist(String email, String password) {

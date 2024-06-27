@@ -8,9 +8,12 @@ public class ModelDTO {
     private Long id;
     private String name;
     private CategoryEnum category;
+    private String imageUrl;
     private Long startYear;
     private Long endYear;
-    private String imageUrl;
+
+    public ModelDTO() {
+    }
 
     public String getName() {
         return name;

@@ -46,9 +46,9 @@ public class OfferService {
     }
 
     public OfferDetailsDTO getOfferDetails(Long id) {
-   return this.offerRepository.findById(id)
-            .map(OfferService::toOfferDetails)
-           .orElse(null);
+        return this.offerRepository.findById(id)
+                .map(OfferService::toOfferDetails)
+                .orElse(null);
     }
 
     private static OfferDetailsDTO toOfferDetails(Offer offer) {
@@ -70,7 +70,7 @@ public class OfferService {
                 offer.getTransmission(), offer.getImageUrl());
     }
 
-   public void deleteOffer(Long id) {
+    public void deleteOffer(Long id) {
         this.offerRepository.deleteById(id);
-   }
+    }
 }

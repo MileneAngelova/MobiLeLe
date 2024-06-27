@@ -3,6 +3,7 @@ package bg.softuni.mobilele.models.entities;
 import bg.softuni.mobilele.models.enums.EngineEnum;
 import bg.softuni.mobilele.models.enums.TransmissionEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
