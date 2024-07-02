@@ -30,40 +30,37 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login(@Valid UserLoginDTO userLoginDTO) {
-        if (this.userService.isLoggedIn()) {
-            return "redirect:/offers/all";
-        }
+//        if (this.userService.isLoggedIn()) {
+//            return "redirect:/offers/all";
+//        }
         return "auth-login";
     }
 
     @PostMapping("/login")
     public String login(@Valid UserLoginDTO loginModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (this.userService.isLoggedIn()) {
-            return "redirect:/";
-        }
+//        if (this.userService.isLoggedIn()) {
+//            return "redirect:/";
+//        }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("loginModel", loginModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginModel", bindingResult);
-
+            redirectAttributes.addFlashAttribute("login-error", true);
             return "redirect:/users/login";
         }
-        boolean success = userService.login(loginModel);
+//        boolean success = userService.login(loginModel);
 
-        if (!success) {
-            redirectAttributes.addFlashAttribute("loginError", true);
-
-            return "redirect:/users/login";
-        }
+//        if (!success) {
+//            redirectAttributes.addFlashAttribute("loginError", true);
+//
+//            return "redirect:/users/login";
+//        }
         return "redirect:/offers/all";
     }
 
     @GetMapping("/logout")
     public String logout() {
-        userService.logout();
+//        userService.logout();
                 return "redirect:/";
-
     }
-
-
 }

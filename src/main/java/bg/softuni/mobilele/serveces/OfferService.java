@@ -1,15 +1,17 @@
 package bg.softuni.mobilele.serveces;
 
 import bg.softuni.mobilele.models.dtos.AddOfferDTO;
+import bg.softuni.mobilele.models.dtos.BrandDTO;
 import bg.softuni.mobilele.models.dtos.OfferDetailsDTO;
 import bg.softuni.mobilele.models.dtos.AllOffersDTO;
 import bg.softuni.mobilele.models.entities.Model;
 import bg.softuni.mobilele.models.entities.Offer;
-import bg.softuni.mobilele.models.entities.User;
+import bg.softuni.mobilele.models.entities.UserEntity;
 import bg.softuni.mobilele.models.mapper.OfferMapper;
 import bg.softuni.mobilele.repositories.ModelRepository;
 import bg.softuni.mobilele.repositories.OfferRepository;
 import bg.softuni.mobilele.repositories.UserRepository;
+//import bg.softuni.mobilele.user.CurrentUser;
 import bg.softuni.mobilele.user.CurrentUser;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -21,16 +23,18 @@ public class OfferService {
     private final OfferRepository offerRepository;
     private final UserRepository userRepository;
     private final ModelRepository modelRepository;
-    private final CurrentUser currentUser;
+//    private final CurrentUser currentUser;
     private final OfferMapper offerMapper;
     private final ModelMapper modelMapper;
     private final ExRateService exRateService;
 
-    public OfferService(OfferRepository offerRepository, UserRepository userRepository, ModelRepository modelRepository, CurrentUser currentUser, OfferMapper offerMapper, ModelMapper modelMapper, ExRateService exRateService) {
+    public OfferService(OfferRepository offerRepository, UserRepository userRepository, ModelRepository modelRepository,
+//                        CurrentUser currentUser
+            OfferMapper offerMapper, ModelMapper modelMapper, ExRateService exRateService) {
         this.offerRepository = offerRepository;
         this.userRepository = userRepository;
         this.modelRepository = modelRepository;
-        this.currentUser = currentUser;
+//        this.currentUser = currentUser;
         this.offerMapper = offerMapper;
         this.modelMapper = modelMapper;
         this.exRateService = exRateService;
@@ -38,11 +42,11 @@ public class OfferService {
 
     public void addOffer(AddOfferDTO addOfferDTO) {
         Offer newOffer = offerMapper.addOfferDtoToOffer(addOfferDTO);
-        User seller = userRepository.findByEmail(currentUser.getEmail()).orElse(null);
-        System.out.println(currentUser.getEmail() + " " + currentUser.getName());
+//        UserEntity seller = userRepository.findByEmail(currentUser.getEmail()).orElse(null);
+//        System.out.println(currentUser.getEmail() + " " + currentUser.getName());
         Model model = this.modelRepository.findById(addOfferDTO.getModelId()).orElse(null);
 
-        newOffer.setSeller(seller);
+//        newOffer.setSeller(seller);
         newOffer.setModel(model);
         offerRepository.save(newOffer);
     }

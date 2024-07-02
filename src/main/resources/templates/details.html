@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>MobiLeLeLe</title>
-    <th:block th:include="~{fragments/head}"/>
+    <th:block th:insert="~{fragments/head}"/>
 </head>
 
 <body>
@@ -72,11 +72,11 @@
             <input type="hidden" id="priceInBGN" th:value="*{price}">
             <div class="card-body">
                 <a class="card-link"
-                   th:if="${@currentUser.isLoggedIn()}"
+                   sec:authorize="!isAuthenticated()"
                    href="/">Update</a>
                 <form th:method="delete"
                       th:action="@{delete/{id}(id = *{id})}">
-                    <input th:if="${@currentUser.isLoggedIn()}"
+                    <input sec:authorize="!isAuthenticated()"
                            class="btn btn-link"
                            type="submit"
                            value="Delete"/>

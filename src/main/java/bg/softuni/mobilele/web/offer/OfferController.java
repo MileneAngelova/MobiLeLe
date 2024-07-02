@@ -43,17 +43,17 @@ public class OfferController {
             model.addAttribute("addOfferModel", new AddOfferDTO());
         }
         model.addAttribute("brands", brandService.getAllBrands());
-        if (!this.userService.isLoggedIn()) {
-            return "redirect:/";
-        }
+//        if (!this.userService.isLoggedIn()) {
+//            return "redirect:/";
+//        }
         return "offer-add";
     }
 
     @PostMapping("/add")
     public String addOffer(@Valid AddOfferDTO addOfferModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, UserLoginDTO userLoginDTO) {
-        if (!this.userService.isLoggedIn()) {
-            return "redirect:/";
-        }
+//        if (!this.userService.isLoggedIn()) {
+//            return "redirect:/";
+//        }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addOfferModel", addOfferModel);

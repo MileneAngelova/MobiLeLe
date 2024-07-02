@@ -3,7 +3,6 @@ package bg.softuni.mobilele.models.entities;
 import bg.softuni.mobilele.models.enums.EngineEnum;
 import bg.softuni.mobilele.models.enums.TransmissionEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
@@ -37,13 +36,13 @@ public class Offer extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private User seller;
+    private UserEntity seller;
 
-    public User getSeller() {
+    public UserEntity getSeller() {
         return seller;
     }
 
-    public void setSeller(User seller) {
+    public void setSeller(UserEntity seller) {
         this.seller = seller;
     }
 
