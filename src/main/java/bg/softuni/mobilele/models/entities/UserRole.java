@@ -4,14 +4,15 @@ import bg.softuni.mobilele.models.enums.RoleEnum;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users_roles")
+@Table(name = "roles")
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
-    RoleEnum userRole;
+    private RoleEnum role;
 
     public UserRole() {
     }
@@ -25,20 +26,12 @@ public class UserRole {
         return this;
     }
 
-    public RoleEnum getUserRole() {
-        return userRole;
+    public RoleEnum getRole() {
+        return role;
     }
 
-    public UserRole setUserRole(RoleEnum userRole) {
-        this.userRole = userRole;
+    public UserRole setRole(RoleEnum role) {
+        this.role = role;
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "UserRole{" +
-                "id=" + id +
-                ", userRole=" + userRole +
-                '}';
     }
 }

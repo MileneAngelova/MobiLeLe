@@ -2,6 +2,9 @@ package bg.softuni.mobilele.models.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
@@ -19,8 +22,13 @@ public class UserEntity extends BaseEntity {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToOne
-    UserRole role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<UserRole> roles = new ArrayList<>();
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -73,12 +81,12 @@ public class UserEntity extends BaseEntity {
         return this;
     }
 
-    public UserRole getRole() {
-        return role;
+    public List<UserRole> getRoles() {
+        return roles;
     }
 
-    public UserEntity setRole(UserRole role) {
-        this.role = role;
+    public UserEntity setRoles(List<UserRole> roles) {
+        this.roles = roles;
         return this;
     }
 
@@ -99,7 +107,7 @@ public class UserEntity extends BaseEntity {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", isActive=" + isActive +
-                ", role=" + (role != null ? role.getUserRole() : null) +
+                ", roles=" + roles +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }

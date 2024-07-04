@@ -1,7 +1,7 @@
 package bg.softuni.mobilele.config;
 
 import bg.softuni.mobilele.repositories.UserRepository;
-import bg.softuni.mobilele.serveces.MobileLeUserDetailsService;
+import bg.softuni.mobilele.session.MobileLeUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +18,7 @@ public class SecurityConfiguration {
                 authorizeHttpRequests -> authorizeHttpRequests
                         // all static resources are available to anyone
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/", "/users/login", "users/register", "/offers/all", "/brands/all")
-                        .permitAll()
+                        .requestMatchers("/", "/users/login", "/users/login-error", "users/register", "/offers/all", "/brands/all", "/offers/{id}").permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(formLogin -> {

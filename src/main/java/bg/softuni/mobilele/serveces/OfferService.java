@@ -1,18 +1,15 @@
 package bg.softuni.mobilele.serveces;
 
 import bg.softuni.mobilele.models.dtos.AddOfferDTO;
-import bg.softuni.mobilele.models.dtos.BrandDTO;
 import bg.softuni.mobilele.models.dtos.OfferDetailsDTO;
 import bg.softuni.mobilele.models.dtos.AllOffersDTO;
 import bg.softuni.mobilele.models.entities.Model;
 import bg.softuni.mobilele.models.entities.Offer;
-import bg.softuni.mobilele.models.entities.UserEntity;
 import bg.softuni.mobilele.models.mapper.OfferMapper;
 import bg.softuni.mobilele.repositories.ModelRepository;
 import bg.softuni.mobilele.repositories.OfferRepository;
 import bg.softuni.mobilele.repositories.UserRepository;
 //import bg.softuni.mobilele.user.CurrentUser;
-import bg.softuni.mobilele.user.CurrentUser;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -58,10 +55,16 @@ public class OfferService {
     }
 
 
-
     private OfferDetailsDTO toOfferDetails(Offer offer) {
-        return new OfferDetailsDTO(offer.getId(), offer.getYear(), offer.getModel().getBrand().getName(), offer.getModel().getName(), offer.getMileage(), offer.getPrice(),
-                offer.getEngine(), offer.getTransmission(), offer.getCreated(), offer.getModified(),
+        return new OfferDetailsDTO(offer.getId(),
+                offer.getYear(),
+                offer.getModel().getBrand().getName(),
+                offer.getModel().getName(),
+                offer.getMileage(),
+                offer.getPrice(),
+                offer.getEngine(),
+                offer.getTransmission(),
+                offer.getCreated(), offer.getModified(),
                 String.format(offer.getSeller().getFirstName() + "  " + offer.getSeller().getLastName()),
                 offer.getImageUrl(),
                 exRateService.allSupportedCurrencies());

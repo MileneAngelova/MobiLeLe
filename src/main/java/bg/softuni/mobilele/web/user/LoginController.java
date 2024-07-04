@@ -12,16 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/users")
 public class LoginController {
-    private final UserService userService;
+//    private final UserService userService;
 
-    public LoginController(UserService userService) {
-        this.userService = userService;
-    }
+//    public LoginController(UserService userService) {
+//        this.userService = userService;
+//    }
 
     @ModelAttribute("loginModel")
     public UserLoginDTO loginUser() {
@@ -34,6 +35,15 @@ public class LoginController {
 //            return "redirect:/offers/all";
 //        }
         return "auth-login";
+    }
+
+    @GetMapping("/login-error")
+    public ModelAndView view() {
+        ModelAndView modelAndView = new ModelAndView("auth-login");
+        modelAndView.addObject("loginError", true);
+        modelAndView.addObject("loginModel", new UserRegisterDTO());
+
+        return modelAndView;
     }
 
     @PostMapping("/login")
@@ -61,6 +71,6 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout() {
 //        userService.logout();
-                return "redirect:/";
+        return "redirect:/";
     }
 }

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>MobiLeLeLe</title>
-    <th:block th:include="~{fragments/head}"/>
+    <th:block th:insert="~{fragments/head}"/>
 </head>
 <body>
 
@@ -42,7 +43,7 @@
                         <th>
                             <img alt="image"
                                  class="img-thumbnail rounded"
-                                 th:src="@{model.imageUrl}">
+                                 th:src="${model.imageUrl}">
                         </th>
                     </tr>
                 </table>
